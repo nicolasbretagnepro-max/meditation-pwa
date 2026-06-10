@@ -1,0 +1,290 @@
+[
+  {
+    "id": "physiological-sigh",
+    "title": "Soupir physiologique",
+    "category": "Stress",
+    "type": "Respiration",
+    "duration": 60,
+    "intensity": "Immédiate",
+    "moods": ["stress", "tension", "disperse"],
+    "description": "Double inspiration nasale + longue expiration buccale. Un seul cycle suffit pour baisser le CO₂ et calmer le système nerveux en quelques secondes.",
+    "pattern": [
+      {"label":"Inspire (1)", "seconds":2},
+      {"label":"Inspire (2)", "seconds":2},
+      {"label":"Expire lentement", "seconds":8}
+    ],
+    "guidance": [
+      "Inspire par le nez, remplis les poumons.",
+      "Inspire encore un peu, jusqu'au bout.",
+      "Expire très lentement par la bouche.",
+      "Laisse les épaules descendre.",
+      "Recommence si besoin. Tu as tout ce qu'il faut."
+    ]
+  },
+  {
+    "id": "breath-46-reset",
+    "title": "Reset respiration 4-6",
+    "category": "Stress",
+    "type": "Respiration",
+    "duration": 180,
+    "intensity": "Très douce",
+    "moods": ["stress", "tension", "disperse"],
+    "description": "Une respiration lente avec expiration longue pour réduire la tension rapidement.",
+    "pattern": [
+      {"label":"Inspire", "seconds":4},
+      {"label":"Expire", "seconds":6}
+    ],
+    "guidance": [
+      "Relâche les épaules.",
+      "Inspire sans forcer.",
+      "Allonge l'expiration.",
+      "Laisse le rythme faire le travail.",
+      "Tu n'as rien à contrôler. Juste suivre."
+    ]
+  },
+  {
+    "id": "cardiac-coherence",
+    "title": "Cohérence cardiaque 5-5",
+    "category": "Stress",
+    "type": "Respiration",
+    "duration": 300,
+    "intensity": "Calibrée",
+    "moods": ["stress", "tension", "bien"],
+    "description": "6 respirations par minute pendant 5 minutes. Améliore la variabilité cardiaque et réduit le cortisol. Format clinique validé.",
+    "pattern": [
+      {"label":"Inspire", "seconds":5},
+      {"label":"Expire", "seconds":5}
+    ],
+    "guidance": [
+      "Installe un rythme régulier.",
+      "5 secondes d'inspiration, 5 d'expiration.",
+      "Garde le dos droit, la mâchoire relâchée.",
+      "Si l'esprit part, reviens au comptage.",
+      "Tu régules ton système nerveux autonome.",
+      "Continue sans forcer. L'effet est cumulatif.",
+      "Dernière minute. Maintiens le rythme.",
+      "Laisse le calme s'installer dans le corps."
+    ]
+  },
+  {
+    "id": "box-breathing-focus",
+    "title": "Box breathing focus",
+    "category": "Clarté",
+    "type": "Respiration",
+    "duration": 240,
+    "intensity": "Stable",
+    "moods": ["disperse", "bien"],
+    "description": "Un rythme carré pour retrouver de la structure mentale.",
+    "pattern": [
+      {"label":"Inspire", "seconds":4},
+      {"label":"Retiens", "seconds":4},
+      {"label":"Expire", "seconds":4},
+      {"label":"Retiens", "seconds":4}
+    ],
+    "guidance": [
+      "Garde le visage détendu.",
+      "Compte calmement.",
+      "Ne cherche pas à performer.",
+      "Reviens au carré suivant.",
+      "Le rythme est une ancre. Reste là.",
+      "Rien à résoudre ici, juste respirer."
+    ]
+  },
+  {
+    "id": "body-scan-evening",
+    "title": "Scan corporel du soir",
+    "category": "Sommeil",
+    "type": "Méditation",
+    "duration": 600,
+    "intensity": "Repos",
+    "moods": ["fatigue", "tension", "triste"],
+    "description": "Un parcours du corps pour relâcher progressivement la journée.",
+    "pattern": [
+      {"label":"Observe", "seconds":10}
+    ],
+    "guidance": [
+      "Allonge-toi ou assieds-toi confortablement.",
+      "Commence par les pieds. Observe les sensations.",
+      "Remonte vers les mollets et les genoux.",
+      "Observe les cuisses et le bassin. Laisse-les lourds.",
+      "Sens le ventre se gonfler et se dégonfler.",
+      "Relâche le thorax. Chaque expiration descend.",
+      "Laisse tomber les épaules. Rien à porter ici.",
+      "Observe les bras jusqu'aux mains. Tout se relâche.",
+      "Adoucis la mâchoire. Décroise les dents.",
+      "Laisse le visage se lisser. Les yeux se ferment.",
+      "Le corps devient lourd. Tu peux t'y reposer.",
+      "Reste simplement là. La journée est terminée."
+    ]
+  },
+  {
+    "id": "two-minute-restart",
+    "title": "Reprise 2 minutes",
+    "category": "Reprise",
+    "type": "Méditation",
+    "duration": 120,
+    "intensity": "Minimum viable",
+    "moods": ["fatigue", "stress", "triste", "disperse", "bien"],
+    "description": "La séance à faire quand tu n'as pas envie. Elle compte entièrement.",
+    "pattern": [
+      {"label":"Respire", "seconds":8}
+    ],
+    "guidance": [
+      "Assieds-toi simplement.",
+      "Observe une inspiration.",
+      "Observe une expiration.",
+      "Tu n'as rien à compenser."
+    ]
+  },
+  {
+    "id": "morning-anchor",
+    "title": "Ancrage du matin",
+    "category": "Matin",
+    "type": "Méditation",
+    "duration": 300,
+    "intensity": "Claire",
+    "moods": ["bien", "disperse", "energie"],
+    "description": "Une courte pratique pour choisir l'intention de la journée.",
+    "pattern": [
+      {"label":"Présence", "seconds":12}
+    ],
+    "guidance": [
+      "Sens le contact avec le sol.",
+      "Respire naturellement.",
+      "Observe le corps. Qu'est-ce qui est là ?",
+      "Choisis une intention simple pour la journée.",
+      "Un seul mot suffit. Garde-le.",
+      "Porte cette intention dans la première heure."
+    ]
+  },
+  {
+    "id": "478-sleep",
+    "title": "Respiration 4-7-8",
+    "category": "Sommeil",
+    "type": "Respiration",
+    "duration": 240,
+    "intensity": "Sédative",
+    "moods": ["fatigue", "tension", "stress"],
+    "description": "Une respiration lente adaptée à la décompression du soir. Si la rétention de 7 s est inconfortable, commence à 4-5-6.",
+    "pattern": [
+      {"label":"Inspire", "seconds":4},
+      {"label":"Retiens", "seconds":7},
+      {"label":"Expire", "seconds":8}
+    ],
+    "guidance": [
+      "Réduis l'effort.",
+      "Expire très lentement.",
+      "Si la rétention est trop longue, adapte à ton rythme.",
+      "Laisse le corps ralentir.",
+      "Tu peux fermer les yeux.",
+      "Chaque cycle apporte plus de calme."
+    ]
+  },
+  {
+    "id": "energy-uplift",
+    "title": "Énergie calme",
+    "category": "Énergie",
+    "type": "Respiration",
+    "duration": 300,
+    "intensity": "Tonique doux",
+    "moods": ["fatigue", "energie"],
+    "description": "Une séance pour remonter l'énergie sans agitation.",
+    "pattern": [
+      {"label":"Inspire", "seconds":5},
+      {"label":"Expire", "seconds":5}
+    ],
+    "guidance": [
+      "Redresse légèrement le dos.",
+      "Respire avec amplitude.",
+      "Garde le rythme régulier.",
+      "Laisse l'attention s'éclaircir.",
+      "Énergie sans effort. Tu n'as pas à te battre.",
+      "Continue. L'état change doucement."
+    ]
+  },
+  {
+    "id": "emotion-softening",
+    "title": "Adoucir une émotion",
+    "category": "Émotions",
+    "type": "Méditation",
+    "duration": 480,
+    "intensity": "Accueillante",
+    "moods": ["triste", "stress", "tension"],
+    "description": "Une pratique pour observer une émotion sans la renforcer.",
+    "pattern": [
+      {"label":"Observe", "seconds":10}
+    ],
+    "guidance": [
+      "Nomme l'émotion sobrement.",
+      "Localise-la dans le corps.",
+      "Respire autour de la zone.",
+      "Tu n'as pas à la résoudre. Juste l'observer.",
+      "Autorise-la à changer — ou à rester.",
+      "Elle n'est pas toi. Tu l'observes.",
+      "Reste avec elle sans t'y noyer.",
+      "Respire encore. Elle se transforme."
+    ]
+  },
+  {
+    "id": "nsdr-recovery",
+    "title": "Récupération NSDR",
+    "category": "Récupération",
+    "type": "Méditation",
+    "duration": 1200,
+    "intensity": "Profonde",
+    "moods": ["fatigue", "tension", "stress"],
+    "description": "Non-Sleep Deep Rest : relaxation profonde sans dormir. Réduit le stress, restaure la dopamine, accélère l'apprentissage. Allonge-toi.",
+    "pattern": [
+      {"label":"Relâche", "seconds":20}
+    ],
+    "guidance": [
+      "Allonge-toi sur le dos. Bras le long du corps.",
+      "Fais quelques soupirs : double inspire, longue expire.",
+      "Tourne ton attention vers tes pieds. Laisse-les lourds.",
+      "Remonte lentement vers les jambes.",
+      "Sens le poids du bassin contre le sol.",
+      "Le ventre se gonfle et se dégonfle seul.",
+      "Le thorax s'ouvre. Chaque expiration l'alourdit.",
+      "Les bras sont lourds. Les mains, abandonnées.",
+      "La tête repose entièrement. Nuque détendue.",
+      "Tu restes éveillé, mais profondément reposé.",
+      "Si tu t'endors, c'est que le corps en avait besoin.",
+      "Observe simplement. Il n'y a rien à faire.",
+      "Laisse les pensées passer comme des nuages.",
+      "Tu récupères à un niveau profond.",
+      "Continue à rester là, présent et relâché.",
+      "Quelques minutes de plus. Le corps se restaure.",
+      "Dernière phase. Reviens doucement à ta respiration.",
+      "Commence à sentir tes doigts, tes orteils.",
+      "Étire-toi légèrement avant de te relever.",
+      "Tu sors de cette séance plus reposé qu'avant."
+    ]
+  },
+  {
+    "id": "loving-kindness",
+    "title": "Bienveillance (Metta)",
+    "category": "Émotions",
+    "type": "Méditation",
+    "duration": 300,
+    "intensity": "Douce",
+    "moods": ["triste", "tension", "stress", "bien"],
+    "description": "Une pratique de bienveillance envers soi puis les autres. Efficace pour réduire l'anxiété sociale et améliorer l'humeur.",
+    "pattern": [
+      {"label":"Observe", "seconds":15}
+    ],
+    "guidance": [
+      "Assieds-toi confortablement. Ferme les yeux.",
+      "Porte ton attention sur ta propre personne.",
+      "Répète mentalement : que je sois en bonne santé.",
+      "Que je sois en paix.",
+      "Que je sois heureux.",
+      "Étends maintenant cette bienveillance à quelqu'un de proche.",
+      "Que cette personne soit en bonne santé.",
+      "Que cette personne soit en paix.",
+      "Élargis encore — à toutes les personnes autour de toi.",
+      "Que tous soient bien. Que tous soient en paix.",
+      "Reviens à toi. Tu mérites cette bienveillance aussi.",
+      "Reste encore un moment dans cet espace ouvert."
+    ]
+  }
+]
