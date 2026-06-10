@@ -41,15 +41,40 @@ let isPaused = false;
 let startedAt = null;
 
 const $ = (id) => document.getElementById(id);
+const escapeHTML = (value = "") => String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#039;" }[char]));
+const makeId = () => (globalThis.crypto?.randomUUID ? globalThis.crypto.randomUUID() : `session-${Date.now()}-${Math.random().toString(16).slice(2)}`);
 const state = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 const saveState = (records) => localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
 const settings = () => ({ weeklyGoal: 5, tone: "neutral", ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}") });
 const saveSettings = (value) => localStorage.setItem(SETTINGS_KEY, JSON.stringify(value));
 
+const fallbackSessions = [
+  {
+    id: "two-minute-restart",
+    title: "Reprise 2 minutes",
+    category: "Reprise",
+    type: "Méditation",
+    duration: 120,
+    intensity: "Minimum viable",
+    moods: ["fatigue", "stress", "triste", "disperse", "bien"],
+    description: "La séance à faire quand tu n'as pas envie. Elle compte entièrement.",
+    pattern: [{ label: "Respire", seconds: 8 }],
+    guidance: ["Assieds-toi simplement.", "Observe une inspiration.", "Observe une expiration.", "Tu n'as rien à compenser."]
+  }
+];
+
 init();
 
 async function init() {
-  sessions = await fetch("data/sessions.json").then((r) => r.json());
+  try {
+    sessions = await fetch("data/sessions.json").then((r) => {
+      if (!r.ok) throw new Error("Impossible de charger les séances");
+      return r.json();
+    });
+  } catch (error) {
+    sessions = fallbackSessions;
+    console.warn("Sessions chargées depuis le fallback local", error);
+  }
   renderToday();
   renderQuote();
   renderMoods();
@@ -74,16 +99,16 @@ function renderQuote() {
 
 function renderMoods() {
   $("moodGrid").innerHTML = moods.map((m) => `
-    <button class="mood-button" data-mood="${m.id}">
-      <strong>${m.label}</strong>
-      <span>${m.hint}</span>
+    <button class="mood-button" data-mood="${escapeHTML(m.id)}">
+      <strong>${escapeHTML(m.label)}</strong>
+      <span>${escapeHTML(m.hint)}</span>
     </button>
   `).join("");
 }
 
 function renderCategories() {
   const categories = ["Toutes", ...new Set(sessions.map((s) => s.category))];
-  $("categoryFilter").innerHTML = categories.map((c) => `<option value="${c}">${c}</option>`).join("");
+  $("categoryFilter").innerHTML = categories.map((c) => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join("");
 }
 
 function renderSessions(category = "Toutes") {
@@ -93,13 +118,13 @@ function renderSessions(category = "Toutes") {
 
 function sessionCard(s) {
   return `
-    <button class="session-card" data-session="${s.id}">
-      <strong>${s.title}</strong>
-      <span>${s.description}</span>
+    <button class="session-card" data-session="${escapeHTML(s.id)}">
+      <strong>${escapeHTML(s.title)}</strong>
+      <span>${escapeHTML(s.description)}</span>
       <div class="meta">
         <em class="pill">${Math.round(s.duration / 60)} min</em>
-        <em class="pill">${s.type}</em>
-        <em class="pill">${s.intensity}</em>
+        <em class="pill">${escapeHTML(s.type)}</em>
+        <em class="pill">${escapeHTML(s.intensity)}</em>
       </div>
     </button>
   `;
@@ -110,7 +135,7 @@ function bindEvents() {
     const moodButton = event.target.closest("[data-mood]");
     const sessionButton = event.target.closest("[data-session]");
     if (moodButton) recommendForMood(moodButton.dataset.mood);
-    if (sessionButton) openSession(sessionButton.dataset.session);
+    if (sessionButton) openSession(sessionButton.dataset.session, Boolean(sessionButton.closest("#recommendedSession")));
   });
 
   $("categoryFilter").addEventListener("change", (e) => renderSessions(e.target.value));
@@ -123,6 +148,16 @@ function bindEvents() {
   $("tonePreference").addEventListener("change", updateSettings);
   $("exportButton").addEventListener("click", exportData);
   $("resetButton").addEventListener("click", resetData);
+  $("sessionDialog").addEventListener("cancel", stopActiveTimer);
+  $("sessionDialog").addEventListener("close", stopActiveTimer);
+}
+
+function stopActiveTimer() {
+  if (timer) {
+    clearInterval(timer);
+    timer = null;
+  }
+  isPaused = false;
 }
 
 function recommendForMood(moodId) {
@@ -150,9 +185,10 @@ function reasonForMood(moodId, session) {
   return `${labels[moodId] || "Séance adaptée."} Proposition : ${session.title}.`;
 }
 
-function openSession(id) {
+function openSession(id, fromRecommendation = false) {
   selectedSession = sessions.find((s) => s.id === id);
   if (!selectedSession) return;
+  if (!fromRecommendation) selectedMood = null;
   $("dialogCategory").textContent = `${selectedSession.category} · ${selectedSession.type} · ${Math.round(selectedSession.duration / 60)} min`;
   $("dialogTitle").textContent = selectedSession.title;
   $("dialogDescription").textContent = selectedSession.description;
@@ -163,6 +199,8 @@ function openSession(id) {
 }
 
 function startSession() {
+  if (!selectedSession || !selectedSession.pattern?.length) return;
+  stopActiveTimer();
   remaining = selectedSession.duration;
   phaseIndex = 0;
   phaseRemaining = selectedSession.pattern[0].seconds;
@@ -211,6 +249,7 @@ function togglePause() {
 
 function completeSession() {
   clearInterval(timer);
+  timer = null;
   $("activeSession").classList.add("hidden");
   $("postSession").classList.remove("hidden");
 }
@@ -218,7 +257,7 @@ function completeSession() {
 function saveSessionRecord() {
   const durationDone = selectedSession.duration - Math.max(remaining, 0);
   const record = {
-    id: crypto.randomUUID(),
+    id: makeId(),
     sessionId: selectedSession.id,
     title: selectedSession.title,
     type: selectedSession.type,
@@ -296,7 +335,7 @@ function renderHistory(records) {
   const recent = records.slice(-6).reverse();
   $("historyList").innerHTML = recent.length ? recent.map((r) => `
     <article class="history-item">
-      <strong>${r.title}</strong>
+      <strong>${escapeHTML(r.title)}</strong>
       <p>${new Date(r.savedAt).toLocaleDateString("fr-FR")} · ${Math.round(r.durationSeconds / 60)} min · stress ${r.before.stress}→${r.after.stress} · clarté ${r.before.clarity}→${r.after.clarity}</p>
     </article>
   `).join("") : `<p class="small-note">Aucune séance enregistrée pour le moment.</p>`;
