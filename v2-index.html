@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#101827" />
+  <meta name="description" content="Une web app personnelle pour créer une routine de respiration, méditation et récupération." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Respire" />
+  <title>Respire — méditation & respiration</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══ ONBOARDING ═══ -->
+  <div id="onboarding" class="onboarding hidden" role="dialog" aria-label="Bienvenue dans Respire">
+    <div class="ob-dots" aria-hidden="true">
+      <span class="ob-dot ob-dot-active"></span>
+      <span class="ob-dot"></span>
+      <span class="ob-dot"></span>
+    </div>
+
+    <div class="ob-slide" id="obSlide0">
+      <p class="ob-emoji" aria-hidden="true">🌬️</p>
+      <h2>Bienvenue dans Respire</h2>
+      <p>2 à 10 minutes de pratique quotidienne réduisent le stress, améliorent le sommeil et la clarté mentale.</p>
+      <p class="ob-sub">Tu choisis ton état. L'app apprend ce qui fonctionne pour toi.</p>
+      <button type="button" class="primary-button" id="obNext0">Commencer →</button>
+    </div>
+
+    <div class="ob-slide hidden" id="obSlide1">
+      <h2>Ton objectif</h2>
+      <p>Combien de séances par semaine ?</p>
+      <div class="ob-goal-grid" id="obGoalGrid">
+        <button class="ob-goal-pill" data-goal="3"><strong>3</strong><small>Accessible</small></button>
+        <button class="ob-goal-pill ob-goal-active" data-goal="5"><strong>5</strong><small>Recommandé</small></button>
+        <button class="ob-goal-pill" data-goal="7"><strong>7</strong><small>Quotidien</small></button>
+      </div>
+      <div class="ob-reminder-section">
+        <h3>Rappel quotidien <span class="ob-optional">(optionnel)</span></h3>
+        <p class="ob-sub">Une notification à l'heure de ton choix.</p>
+        <div class="ob-reminder-row">
+          <input type="time" id="obReminderTime" value="08:00" aria-label="Heure du rappel" />
+          <button type="button" class="secondary-button" id="obEnableNotif">Activer</button>
+        </div>
+        <p class="ob-notif-status" id="obNotifStatus" aria-live="polite"></p>
+      </div>
+      <button type="button" class="primary-button" id="obNext1">Continuer →</button>
+    </div>
+
+    <div class="ob-slide hidden" id="obSlide2">
+      <h2>Par où commencer ?</h2>
+      <p>Le parcours 7 jours t'introduit une pratique par jour, du plus simple au plus profond.</p>
+      <div class="ob-start-options">
+        <button type="button" class="ob-start-card" id="obStartProgram">
+          <strong>Parcours 7 jours</strong>
+          <span>Une pratique guidée par jour. Idéal pour débuter.</span>
+        </button>
+        <button type="button" class="ob-start-card ob-start-card-secondary" id="obStartFree">
+          <strong>Explorer librement</strong>
+          <span>Choisis selon ton humeur du moment.</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- ═══ FIN ONBOARDING ═══ -->
+
+
+  <!-- ═══ APP ═══ -->
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow" id="todayLabel">Aujourd'hui</p>
+        <h1>Respire</h1>
+      </div>
+      <button class="icon-button" id="settingsButton" aria-label="Paramètres">⚙</button>
+    </header>
+
+    <!-- ── VUE : AUJOURD'HUI ── -->
+    <section class="view active" id="viewToday" aria-label="Aujourd'hui">
+
+      <!-- Hero -->
+      <div class="hero card">
+        <p class="quote" id="dailyQuote">Une seule séance suffit pour garder le fil.</p>
+        <div class="streak-grid">
+          <div><span id="weeklySessions">0</span><small>séances / 7 j</small></div>
+          <div><span id="weeklyMinutes">0</span><small>minutes</small></div>
+          <div><span id="currentStreak">0</span><small>jours actifs</small></div>
+        </div>
+        <div class="goal-progress">
+          <div class="goal-progress-label">
+            <span>Objectif semaine</span>
+            <span id="goalCount" class="goal-count">0 / 5</span>
+          </div>
+          <div class="goal-bar"><div class="goal-bar-fill" id="goalBarFill"></div></div>
+        </div>
+        <p class="last-hint" id="lastHint"></p>
+      </div>
+
+      <!-- Parcours 7 jours -->
+      <div id="programSection" class="section"></div>
+
+      <!-- Humeur -->
+      <div class="section" id="moodSection">
+        <div class="section-title">
+          <h2>Comment tu te sens ?</h2>
+          <p>L'app apprend ce qui fonctionne pour toi.</p>
+        </div>
+        <div class="mood-grid" id="moodGrid"></div>
+      </div>
+
+      <!-- Recommandation -->
+      <div class="section hidden" id="recommendationSection">
+        <div class="section-title">
+          <h2>Séance recommandée</h2>
+          <p id="recommendationReason"></p>
+        </div>
+        <div class="session-card card" id="recommendedSession"></div>
+      </div>
+
+    </section>
+
+    <!-- ── VUE : SÉANCES ── -->
+    <section class="view hidden" id="viewSessions" aria-label="Bibliothèque">
+      <div class="section-title row-title view-header">
+        <div>
+          <h2>Bibliothèque</h2>
+          <p>Respiration, méditation, sommeil, récupération.</p>
+        </div>
+        <select id="categoryFilter" aria-label="Filtrer par catégorie"></select>
+      </div>
+      <div class="session-list" id="sessionList"></div>
+    </section>
+
+    <!-- ── VUE : SUIVI ── -->
+    <section class="view hidden" id="viewTracking" aria-label="Suivi">
+      <div class="card insights">
+        <div class="section-title">
+          <h2>Progression</h2>
+          <p>Une régularité souple vaut mieux qu'une série parfaite.</p>
+        </div>
+        <div class="insight-grid">
+          <div><strong id="totalSessions">0</strong><span>séances totales</span></div>
+          <div><strong id="totalMinutes">0</strong><span>minutes totales</span></div>
+          <div><strong id="avgShift">—</strong><span>effet moyen</span></div>
+          <div><strong id="favoriteType">—</strong><span>pratique fréquente</span></div>
+        </div>
+        <!-- Graphique effet par séance -->
+        <div id="effectChart" class="effect-chart" aria-label="Effet mesuré par type de séance"></div>
+        <div class="history" id="historyList"></div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="bottom-nav" aria-label="Navigation principale">
+      <button class="nav-btn active" data-view="viewToday">Aujourd'hui</button>
+      <button class="nav-btn" data-view="viewSessions">Séances</button>
+      <button class="nav-btn" data-view="viewTracking">Suivi</button>
+    </nav>
+  </div>
+
+
+  <!-- ═══ DIALOG SÉANCE ═══ -->
+  <dialog id="sessionDialog" class="session-dialog">
+    <form method="dialog" class="dialog-inner">
+      <button class="close-button" value="cancel" aria-label="Fermer">×</button>
+
+      <div id="preSession">
+        <p class="eyebrow" id="dialogCategory"></p>
+        <h2 id="dialogTitle"></h2>
+        <p id="dialogDescription"></p>
+        <!-- Badge "apprises" si on a des données perso -->
+        <p class="personal-badge hidden" id="personalBadge"></p>
+        <div class="range-grid">
+          <label>Stress avant <input type="range" id="beforeStress" min="0" max="10" value="5" /></label>
+          <label>Énergie avant <input type="range" id="beforeEnergy" min="0" max="10" value="5" /></label>
+          <label>Clarté avant <input type="range" id="beforeClarity" min="0" max="10" value="5" /></label>
+        </div>
+        <button type="button" class="primary-button" id="startSessionButton">Lancer la séance</button>
+      </div>
+
+      <div id="activeSession" class="active-session hidden">
+        <p class="eyebrow" id="activePhaseLabel">Préparation</p>
+        <div class="breath-visual" id="breathVisual"><span></span></div>
+        <h2 id="timerDisplay">00:00</h2>
+        <p id="guidanceText">Installe-toi confortablement.</p>
+        <div class="controls">
+          <button type="button" class="secondary-button" id="pauseButton">Pause</button>
+          <button type="button" class="primary-button" id="finishButton">Terminer</button>
+        </div>
+      </div>
+
+      <div id="postSession" class="post-session hidden">
+        <p class="completion-message" id="completionMessage"></p>
+        <p class="completion-sub">Note ton état pour que l'app apprenne ce qui fonctionne pour toi.</p>
+        <div class="range-grid">
+          <label>Stress après <input type="range" id="afterStress" min="0" max="10" value="5" /></label>
+          <label>Énergie après <input type="range" id="afterEnergy" min="0" max="10" value="5" /></label>
+          <label>Clarté après <input type="range" id="afterClarity" min="0" max="10" value="5" /></label>
+        </div>
+        <textarea id="sessionNote" maxlength="240" placeholder="Note optionnelle : contexte, ressenti, observation..."></textarea>
+        <button type="button" class="primary-button" id="saveSessionButton">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+
+  <!-- ═══ DIALOG PARAMÈTRES ═══ -->
+  <dialog id="settingsDialog" class="settings-dialog">
+    <form method="dialog" class="dialog-inner">
+      <button class="close-button" value="cancel" aria-label="Fermer">×</button>
+      <h2>Paramètres</h2>
+      <label>Objectif hebdomadaire
+        <select id="weeklyGoal">
+          <option value="3">3 séances</option>
+          <option value="5">5 séances</option>
+          <option value="7">7 séances</option>
+        </select>
+      </label>
+      <label>Ton de l'app
+        <select id="tonePreference">
+          <option value="neutral">Sobre</option>
+          <option value="warm">Encourageant</option>
+          <option value="spiritual">Énergie / vibration</option>
+        </select>
+      </label>
+      <div class="reminder-block">
+        <p class="reminder-block-title">Rappel quotidien</p>
+        <div class="reminder-row">
+          <label class="reminder-toggle-label">
+            <input type="checkbox" id="reminderEnabled" role="switch" />
+            Activer
+          </label>
+          <input type="time" id="reminderTime" value="08:00" aria-label="Heure du rappel" />
+        </div>
+        <p class="reminder-status" id="reminderStatus" aria-live="polite"></p>
+      </div>
+      <button type="button" class="secondary-button" id="exportButton">Exporter mes données</button>
+      <button type="button" class="danger-button" id="resetButton">Réinitialiser</button>
+      <p class="small-note">Les données restent dans le navigateur de cet appareil.</p>
+    </form>
+  </dialog>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
