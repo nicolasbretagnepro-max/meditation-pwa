@@ -1,0 +1,98 @@
+[
+  {
+    "id": "breath-46-reset",
+    "title": "Reset respiration 4-6",
+    "category": "Stress",
+    "type": "Respiration",
+    "duration": 180,
+    "intensity": "Très douce",
+    "moods": ["stress", "tension", "disperse"],
+    "description": "Une respiration lente avec expiration longue pour réduire la tension rapidement.",
+    "pattern": [{"label":"Inspire", "seconds":4}, {"label":"Expire", "seconds":6}],
+    "guidance": ["Relâche les épaules.", "Inspire sans forcer.", "Allonge l'expiration.", "Laisse le rythme faire le travail."]
+  },
+  {
+    "id": "box-breathing-focus",
+    "title": "Box breathing focus",
+    "category": "Clarté",
+    "type": "Respiration",
+    "duration": 240,
+    "intensity": "Stable",
+    "moods": ["disperse", "bien"],
+    "description": "Un rythme carré pour retrouver de la structure mentale.",
+    "pattern": [{"label":"Inspire", "seconds":4}, {"label":"Retiens", "seconds":4}, {"label":"Expire", "seconds":4}, {"label":"Retiens", "seconds":4}],
+    "guidance": ["Garde le visage détendu.", "Compte calmement.", "Ne cherche pas à performer.", "Reviens au carré suivant."]
+  },
+  {
+    "id": "body-scan-evening",
+    "title": "Scan corporel du soir",
+    "category": "Sommeil",
+    "type": "Méditation",
+    "duration": 600,
+    "intensity": "Repos",
+    "moods": ["fatigue", "tension", "triste"],
+    "description": "Un parcours du corps pour relâcher progressivement la journée.",
+    "pattern": [{"label":"Observe", "seconds":10}],
+    "guidance": ["Commence par les pieds.", "Observe les jambes.", "Relâche le ventre.", "Décris mentalement les sensations.", "Adoucis la mâchoire.", "Laisse le corps devenir lourd."]
+  },
+  {
+    "id": "two-minute-restart",
+    "title": "Reprise 2 minutes",
+    "category": "Reprise",
+    "type": "Méditation",
+    "duration": 120,
+    "intensity": "Minimum viable",
+    "moods": ["fatigue", "stress", "triste", "disperse", "bien"],
+    "description": "La séance à faire quand tu n'as pas envie. Elle compte entièrement.",
+    "pattern": [{"label":"Respire", "seconds":8}],
+    "guidance": ["Assieds-toi simplement.", "Observe une inspiration.", "Observe une expiration.", "Tu n'as rien à compenser."]
+  },
+  {
+    "id": "morning-anchor",
+    "title": "Ancrage du matin",
+    "category": "Matin",
+    "type": "Méditation",
+    "duration": 300,
+    "intensity": "Claire",
+    "moods": ["bien", "disperse", "energie"],
+    "description": "Une courte pratique pour choisir l'intention de la journée.",
+    "pattern": [{"label":"Présence", "seconds":12}],
+    "guidance": ["Sens le contact avec le sol.", "Respire naturellement.", "Choisis une intention simple.", "Garde seulement un mot."]
+  },
+  {
+    "id": "478-sleep",
+    "title": "Respiration 4-7-8",
+    "category": "Sommeil",
+    "type": "Respiration",
+    "duration": 240,
+    "intensity": "Sédative",
+    "moods": ["fatigue", "tension", "stress"],
+    "description": "Une respiration lente adaptée à la décompression du soir.",
+    "pattern": [{"label":"Inspire", "seconds":4}, {"label":"Retiens", "seconds":7}, {"label":"Expire", "seconds":8}],
+    "guidance": ["Réduis l'effort.", "Expire très lentement.", "Laisse le corps ralentir.", "Tu peux fermer les yeux."]
+  },
+  {
+    "id": "energy-uplift",
+    "title": "Énergie calme",
+    "category": "Énergie",
+    "type": "Respiration",
+    "duration": 300,
+    "intensity": "Tonique doux",
+    "moods": ["fatigue", "energie"],
+    "description": "Une séance pour remonter l'énergie sans agitation.",
+    "pattern": [{"label":"Inspire", "seconds":5}, {"label":"Expire", "seconds":5}],
+    "guidance": ["Redresse légèrement le dos.", "Respire avec amplitude.", "Garde le rythme régulier.", "Laisse l'attention s'éclaircir."]
+  },
+  {
+    "id": "emotion-softening",
+    "title": "Adoucir une émotion",
+    "category": "Émotions",
+    "type": "Méditation",
+    "duration": 480,
+    "intensity": "Accueillante",
+    "moods": ["triste", "stress", "tension"],
+    "description": "Une pratique pour observer une émotion sans la renforcer.",
+    "pattern": [{"label":"Observe", "seconds":10}],
+    "guidance": ["Nomme l'émotion sobrement.", "Localise-la dans le corps.", "Respire autour de la zone.", "Autorise-la à changer."]
+  }
+]

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#101827" />
+  <meta name="description" content="Une web app personnelle pour créer une routine de respiration, méditation et récupération." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Respire" />
+  <title>Respire — méditation & respiration</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow" id="todayLabel">Aujourd'hui</p>
+        <h1>Respire</h1>
+      </div>
+      <button class="icon-button" id="settingsButton" aria-label="Paramètres">⚙</button>
+    </header>
+
+    <main>
+      <section class="hero card" id="homeView">
+        <p class="quote" id="dailyQuote">Une seule séance suffit pour garder le fil.</p>
+        <div class="streak-grid">
+          <div>
+            <span id="weeklySessions">0</span>
+            <small>séances / 7 j</small>
+          </div>
+          <div>
+            <span id="weeklyMinutes">0</span>
+            <small>minutes</small>
+          </div>
+          <div>
+            <span id="currentStreak">0</span>
+            <small>jours actifs</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="moodSection">
+        <div class="section-title">
+          <h2>Comment tu te sens ?</h2>
+          <p>Choisis ton état, l'app propose une séance adaptée.</p>
+        </div>
+        <div class="mood-grid" id="moodGrid"></div>
+      </section>
+
+      <section class="section hidden" id="recommendationSection">
+        <div class="section-title">
+          <h2>Séance recommandée</h2>
+          <p id="recommendationReason"></p>
+        </div>
+        <div class="session-card card" id="recommendedSession"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-title row-title">
+          <div>
+            <h2>Bibliothèque</h2>
+            <p>Respiration, méditation, sommeil, récupération.</p>
+          </div>
+          <select id="categoryFilter" aria-label="Filtrer par catégorie"></select>
+        </div>
+        <div class="session-list" id="sessionList"></div>
+      </section>
+
+      <section class="section card insights">
+        <div class="section-title">
+          <h2>Progression</h2>
+          <p>Une régularité souple vaut mieux qu'une série parfaite.</p>
+        </div>
+        <div class="insight-grid">
+          <div><strong id="totalSessions">0</strong><span>séances totales</span></div>
+          <div><strong id="totalMinutes">0</strong><span>minutes totales</span></div>
+          <div><strong id="avgShift">—</strong><span>effet moyen</span></div>
+          <div><strong id="favoriteType">—</strong><span>pratique fréquente</span></div>
+        </div>
+        <div class="history" id="historyList"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navigation principale">
+      <a href="#moodSection">Aujourd'hui</a>
+      <a href="#categoryFilter">Séances</a>
+      <a href="#historyList">Suivi</a>
+    </nav>
+  </div>
+
+  <dialog id="sessionDialog" class="session-dialog">
+    <form method="dialog" class="dialog-inner">
+      <button class="close-button" value="cancel" aria-label="Fermer">×</button>
+      <div id="preSession" class="pre-session">
+        <p class="eyebrow" id="dialogCategory"></p>
+        <h2 id="dialogTitle"></h2>
+        <p id="dialogDescription"></p>
+        <div class="range-grid">
+          <label>Stress avant <input type="range" id="beforeStress" min="0" max="10" value="5" /></label>
+          <label>Énergie avant <input type="range" id="beforeEnergy" min="0" max="10" value="5" /></label>
+          <label>Clarté avant <input type="range" id="beforeClarity" min="0" max="10" value="5" /></label>
+        </div>
+        <button type="button" class="primary-button" id="startSessionButton">Lancer la séance</button>
+      </div>
+
+      <div id="activeSession" class="active-session hidden">
+        <p class="eyebrow" id="activePhaseLabel">Préparation</p>
+        <div class="breath-visual" id="breathVisual"><span></span></div>
+        <h2 id="timerDisplay">00:00</h2>
+        <p id="guidanceText">Installe-toi confortablement.</p>
+        <div class="controls">
+          <button type="button" class="secondary-button" id="pauseButton">Pause</button>
+          <button type="button" class="primary-button" id="finishButton">Terminer</button>
+        </div>
+      </div>
+
+      <div id="postSession" class="post-session hidden">
+        <h2>Séance validée</h2>
+        <p>Note simplement ton état maintenant. Cela permettra de voir ce qui fonctionne vraiment.</p>
+        <div class="range-grid">
+          <label>Stress après <input type="range" id="afterStress" min="0" max="10" value="4" /></label>
+          <label>Énergie après <input type="range" id="afterEnergy" min="0" max="10" value="6" /></label>
+          <label>Clarté après <input type="range" id="afterClarity" min="0" max="10" value="6" /></label>
+        </div>
+        <textarea id="sessionNote" maxlength="240" placeholder="Note optionnelle : contexte, ressenti, observation..."></textarea>
+        <button type="button" class="primary-button" id="saveSessionButton">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="settingsDialog" class="settings-dialog">
+    <form method="dialog" class="dialog-inner">
+      <button class="close-button" value="cancel" aria-label="Fermer">×</button>
+      <h2>Paramètres</h2>
+      <label>Objectif hebdomadaire
+        <select id="weeklyGoal">
+          <option value="3">3 séances</option>
+          <option value="5">5 séances</option>
+          <option value="7">7 séances</option>
+        </select>
+      </label>
+      <label>Ton de l'app
+        <select id="tonePreference">
+          <option value="neutral">Sobre</option>
+          <option value="warm">Encourageant</option>
+          <option value="spiritual">Énergie / vibration</option>
+        </select>
+      </label>
+      <button type="button" class="secondary-button" id="exportButton">Exporter mes données</button>
+      <button type="button" class="danger-button" id="resetButton">Réinitialiser</button>
+      <p class="small-note">Les données restent dans le navigateur de cet appareil.</p>
+    </form>
+  </dialog>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
